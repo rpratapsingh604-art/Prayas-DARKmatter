@@ -1,0 +1,6 @@
+id,name,type,country,customers,products,data_sources
+1,FinLoan,Fintech Lender,India,2000000,AI Personal Loans,Bank Transactions;Behavioral Data
+2,WalletX,Digital Wallet,India,5000000,Digital Payments,Transaction Data
+3,PayFlow,Payment Provider,Singapore,8000000,Cross Border Payments,Transaction Data
+4,CrediAI,AI Lender,India,1200000,AI Credit Scoring,Behavioral Data;Device Data
+5,CloudBank,Digital Bank,India,3500000,Digital Banking,Transaction Data

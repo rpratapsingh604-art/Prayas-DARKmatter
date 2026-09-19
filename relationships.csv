@@ -1,0 +1,16 @@
+source,target,relationship
+FinLoan,CloudBank,Banking Infrastructure
+FinLoan,PayFlow,Payment Provider
+FinLoan,CrediAI,Fintech Partnership
+WalletX,PayFlow,Payment Provider
+WalletX,CloudBank,Banking Infrastructure
+WalletX,FinLoan,Fintech Partnership
+PayFlow,CloudBank,Banking Infrastructure
+PayFlow,WalletX,Payment Network
+CrediAI,CloudBank,Banking Infrastructure
+CrediAI,FinLoan,Fintech Partnership
+CrediAI,PayFlow,Payment Provider
+CloudBank,PayFlow,Payment Network
+CloudBank,WalletX,Digital Banking Partner
+FinLoan,WalletX,Shared Customer Segment
+CrediAI,PayFlow,Shared Payment Infrastructure
