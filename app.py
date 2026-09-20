@@ -2,7 +2,6 @@ import os
 import hmac
 import streamlit as st
 import pandas as pd
-from chatbot import ask_chatbot
 import networkx as nx
 import plotly.graph_objects as go
 import plotly.express as px
@@ -485,41 +484,36 @@ st.write(
     "or areas that may warrant human review."
 )
 
-# Build context from the same variables your old prompt used
-context = f"""
-Company: {company['name']}
-Type: {company['type']}
-Country: {company['country']}
-Customers: {company['customers']}
-Products: {company['products']}
-Risk levels:
-""" + "\n".join(f"- {risk}: {risk_level(score)}" for risk, score in risks.items())
+question = st.text_input(
+    "💬 Ask FINREG AI",
+    placeholder="Why is this company considered high risk?"
+)
 
-# One chat history per company
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = {}
-history = st.session_state.chat_history.setdefault(selected_company, [])
+if st.button("🤖 Analyze with AI", type="primary"):
 
-for msg in history:
-    with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
+    if not question:
+        st.warning("Please enter a question first.")
 
-question = st.chat_input("💬 Ask FINREG AI about this company...")
+    elif OpenAI is None:
+        st.error("The OpenAI package is not installed.")
+        st.code("python3 -m pip install openai")
 
-if question:
-    with st.chat_message("user"):
-        st.markdown(question)
-    with st.chat_message("assistant"):
-        with st.spinner("FINREG AI is analyzing..."):
-            answer = ask_chatbot(question, context, history)
-        st.markdown(answer)
-    history.append({"role": "user", "content": question})
-    history.append({"role": "assistant", "content": answer})
+    elif not os.getenv("OPENAI_API_KEY"):
+        st.error("OPENAI_API_KEY is not connected.")
+        st.info(
+            "Add OPENAI_API_KEY to your PyCharm Run Configuration "
+            "environment variables."
+        )
 
+    else:
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+        risk_text = "\n".join(
+            f"- {risk}: {risk_level(score)}"
+            for risk, score in risks.items()
+        )
 
-   
-prompt = f"""
+        prompt = f"""
 You are FINREG AI, a financial regulatory intelligence assistant.
 
 This is a fictional prototype using synthetic company and regulatory data.
